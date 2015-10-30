@@ -213,8 +213,12 @@ function css_browser_selector(u, ns) {
 		html.className = html.className + ' ' + screenInfo.getInfo().join(' ');
 	}
 
-	window.addEventListener('resize', updateScreen);
-	window.addEventListener('orientationchange', updateScreen);
+	if (window.addEventListener) {
+		window.addEventListener('resize', updateScreen);
+		window.addEventListener('orientationchange', updateScreen);
+	} else if (window.attachEvent) {
+		window.attachEvent('onresize', updateScreen);
+	}
 
 	/* dataURI */
 	var data = dataUriInfo.getImg();
