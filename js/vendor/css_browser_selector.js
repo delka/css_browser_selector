@@ -33,14 +33,49 @@ var uaInfo = {
 			f = 'firefox',
 			s = 'safari',
 			o = 'opera',
+			i = 'ie',
+			e = 'edge',
 
 			ua = uaInfo.ua,
 			is = uaInfo.is;
 
+/*
+MSIE 10.0   Internet Explorer 10 
+MSIE 9.0    Internet Explorer 9 
+MSIE 8.0    Internet Explorer 8 or IE8 Compatibility View/Browser Mode 
+MSIE 7.0    Windows Internet Explorer 7 or IE7 Compatibility View/Browser Mode 
+MSIE 6.0    Microsoft Internet Explorer 6 
+
+Windows NT 6.3            Windows 8.1 
+Windows NT 6.2            Windows 8 
+Windows NT 6.1            Windows 7 
+Windows NT 6.0            Windows Vista 
+Windows NT 5.2            Windows Server 2003; Windows XP x64 Edition  
+Windows NT 5.1            Windows XP 
+Windows NT 5.01           Windows 2000, Service Pack 1 (SP1) 
+Windows NT 5.0            Windows 2000 
+Windows NT 4.0            Microsoft Windows NT 4.0 
+Windows 98; Win 9x 4.90   Windows Millennium Edition (Windows Me) 
+Windows 98                Windows 98 
+Windows 95                Windows 95 
+Windows CE                Windows CE 
+
+.NET CLR      .NET Framework common language run time, followed by the version number. 
+SV1           Internet Explorer 6 with enhanced security features (Windows XP SP2 and Windows Server 2003 only). 
+Tablet PC     Tablet services are installed; number indicates the version number. 
+Win64; IA64   System has a 64-bit processor (Intel). 
+Win64; x64    System has a 64-bit processor (AMD). 
+WOW64         A 32-bit version of Internet Explorer is running on a 64-bit processor. 
+
+
+See also (X-BoX and more): https://msdn.microsoft.com/en-us/library/hh869301(v=vs.85).aspx
+Compatibility View and Detecting 64-bit Internet Explorer: http://blogs.msdn.com/b/ie/archive/2009/01/09/the-internet-explorer-8-user-agent-string-updated-edition.aspx
+*/
+      
 		return [
-			(!(/opera|webtv/i.test(ua)) && /msie\s(\d+)/.test(ua)) ? ('ie ie' + (/trident\/4\.0/.test(ua) ? '8' : RegExp.$1))
-				:is('edge\/') ? 'edge ie' + (/edge\/(\d+)\.(\d+)/.test(ua) ? RegExp.$1 + ' ie' + RegExp.$1 + '_' + RegExp.$2 : '') // IE Edge
-				:is('trident\/') ? 'ie ie'+ (/trident\/.+rv:(\d+)/i.test(ua) ? RegExp.$1 : '') //ie11+
+			(!(/opera|webtv/i.test(ua)) && /msie\s(\d+)/.test(ua)) ? (i + ' ' + i + RegExp.$1) /* IE10- */
+				:is('edge\/') ? e + ' ' + i + (/edge\/(\d+)\.(\d+)/.test(ua) ? RegExp.$1 + ' ' + i + RegExp.$1 + '_' + RegExp.$2 : '') // IE Edge
+				:is('trident\/') ? i + ' ' + i + (/trident\/.+rv:(\d+)/i.test(ua) ? RegExp.$1 : '') // IE 11
 				:is('firefox/') ? g + " " + f + (/firefox\/((\d+)(\.(\d+))(\.\d+)*)/.test(ua) ? ' ' + f + RegExp.$2 + ' ' + f + RegExp.$2 + "_" + RegExp.$4 : '')
 				:is('gecko/') ? g
 				:is('opera') ? o + (/version\/((\d+)(\.(\d+))(\.\d+)*)/.test(ua) ? ' ' + o + RegExp.$2 + ' ' + o + RegExp.$2 + "_" + RegExp.$4 : (/opera(\s|\/)(\d+)\.(\d+)/.test(ua) ? ' ' + o + RegExp.$2 + " " + o + RegExp.$2 + "_" + RegExp.$3 : ''))
